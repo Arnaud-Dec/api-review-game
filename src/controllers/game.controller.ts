@@ -1,6 +1,10 @@
-import { Body, Controller, Get, Path, Route, Tags } from "tsoa";
+import { Body, Controller, Get, Path, Route, Tags ,Post } from "tsoa";
 import { GameDTO } from "../dto/game.dto";
 import { gameService } from "../services/game.service";
+import { notFound } from "../error/NotFoundError";
+
+
+
 
 @Route("games")
 @Tags("Games")
@@ -16,5 +20,20 @@ export class GameController extends Controller {
     const game = await gameService.getGameById(id);
     return game;
   }
+
+  // créer nouveau jeu 
+@Post("/")
+public async createGame(
+  @Body() requestBody: GameDTO
+): Promise<GameDTO> {
+  const {title, console } = requestBody;
+  if(!console?.id){
+    notFound("console "+console?.id);
+  }else{
+    return gameService.createGame(title, console!.id!);
+  }
+}
+
  
 }
+ 

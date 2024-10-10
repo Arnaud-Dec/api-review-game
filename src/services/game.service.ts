@@ -1,6 +1,8 @@
 import { GameDTO } from "../dto/game.dto";
 import { Console } from "../models/console.model";
 import { Game } from "../models/game.model";
+import { notFound } from "../error/NotFoundError";
+
 
 export class GameService {
   public async getAllGames(): Promise<GameDTO[]> {
@@ -23,6 +25,18 @@ export class GameService {
         },
       ],
     });
+  }
+
+  public async createGame(
+    title: string,
+    console_id: number
+  ): Promise<Game> {
+    const console = await Console.findByPk(console_id);
+    if(!console){
+      notFound("Console "+console_id);
+    }else{
+      return Game.create({ title, console_id });
+    }
   }
 }
 

@@ -17,7 +17,7 @@ export class ConsoleService {
     name: string,
     manufacturer: string
   ): Promise<Console> {
-    return Console.create({ name: name, manufacturer: manufacturer }); // j'ai enlever l'attribut id 
+    return Console.create({ name: name, manufacturer: manufacturer }); 
   }
 
   // Supprime une console par ID
