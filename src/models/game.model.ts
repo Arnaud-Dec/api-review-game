@@ -39,3 +39,5 @@ Game.init(
 );
 
 Game.belongsTo(Console, { foreignKey: "console_id", as: "console" });
+
+

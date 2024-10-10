@@ -1,11 +1,13 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../config/database"; // Connexion à la base de données
+import sequelize from "../config/database"; 
+import { Game } from "./game.model";
+
 
 export interface ReviewAttributes {
   id?: number;
   game_id: number;
   rating: number;
-  review_text: string; 
+  content: string; 
 }
 
 export class Review
@@ -15,7 +17,7 @@ export class Review
   public id!: number;
   public game_id!: number;
   public rating!: number;
-  public review_text!: string;
+  public content!: string;
 }
 
 Review.init(
@@ -33,9 +35,10 @@ Review.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    review_text: {
+    content: {
       type: DataTypes.STRING,
       allowNull: false,
+      field: "review_text",
     },
   },
   {
@@ -43,3 +46,5 @@ Review.init(
     tableName: "reviews",
   }
 );
+
+Review.belongsTo(Game, { foreignKey: "game_id", as: "game" });
