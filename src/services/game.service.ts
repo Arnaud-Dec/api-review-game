@@ -13,6 +13,17 @@ export class GameService {
       ],
     });
   }
+
+  public async getGameById(id: number): Promise<GameDTO | null> {
+    return Game.findByPk(id,{
+      include: [
+        {
+          model: Console,
+          as: "console",
+        },
+      ],
+    });
+  }
 }
 
 export const gameService = new GameService();

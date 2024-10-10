@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Route, Tags } from "tsoa";
+import { Body, Controller, Get, Path, Route, Tags } from "tsoa";
 import { GameDTO } from "../dto/game.dto";
 import { gameService } from "../services/game.service";
 
@@ -9,4 +9,12 @@ export class GameController extends Controller {
   public async getAllGames(): Promise<GameDTO[]> {
     return gameService.getAllGames();
   }
+  // Récpére les jeux par id 
+
+  @Get("{id}")
+  public async getGameById(@Path() id: number): Promise<GameDTO | null> {
+    const game = await gameService.getGameById(id);
+    return game;
+  }
+ 
 }
