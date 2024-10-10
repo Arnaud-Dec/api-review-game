@@ -38,6 +38,23 @@ export class ReviewService {
             return Review.create({ game_id, rating, content });
         }
     }
+
+    public async updateReview(
+        id: number,
+        game_id: number,
+        rating: number,
+        content: string
+    ): Promise<Review | null> {
+        const review = await Review.findByPk(id);
+        if (review) {
+            if (game_id) review.game_id = game_id;
+            if (rating) review.rating = rating;
+            if (content) review.content = content;
+            await review.save();
+            return review;
+        }
+        return null;
+    }
         
     
 
