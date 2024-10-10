@@ -38,6 +38,21 @@ export class GameService {
       return Game.create({ title, console_id });
     }
   }
+
+  public async updateGame(
+    id: number,
+    title?: string,
+    console_id?: number
+  ): Promise<GameDTO | null> {
+    const game = await Game.findByPk(id);
+    if (game) {
+      if (title) game.title = title;
+      if (console_id) game.console_id = console_id;
+      await game.save();
+      return game;
+    }
+    return null;
+  }
 }
 
 export const gameService = new GameService();

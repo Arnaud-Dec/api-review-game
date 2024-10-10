@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Path, Route, Tags ,Post } from "tsoa";
+import { Body, Controller, Get, Path, Route, Tags ,Post , Patch } from "tsoa";
 import { GameDTO } from "../dto/game.dto";
 import { gameService } from "../services/game.service";
 import { notFound } from "../error/NotFoundError";
@@ -31,6 +31,19 @@ public async createGame(
     notFound("console "+console?.id);
   }else{
     return gameService.createGame(title, console!.id!);
+  }
+}
+
+@Patch("{id}")
+public async updateGame(
+  @Path() id: number,
+  @Body() requestBody: GameDTO
+): Promise<GameDTO | null> {
+  const { title, console } = requestBody;
+  if(!console?.id){
+    notFound("console "+console?.id);
+  }else{
+    return gameService.updateGame(id, title, console!.id!);
   }
 }
 
