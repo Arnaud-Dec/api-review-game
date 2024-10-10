@@ -13,5 +13,17 @@ export class ReviewService {
             ],
         });
     }
+
+    public async getReviewById(id: number): Promise<Review | null> {
+        return Review.findByPk(id, {
+            include: [
+                {
+                    model: Game,
+                    as: "game",
+                },
+            ],
+        });
+    }
+
 }
 export const reviewService = new ReviewService();

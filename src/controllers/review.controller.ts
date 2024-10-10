@@ -10,5 +10,12 @@ export class ReviewController extends Controller {
     public async getAllReviews(): Promise<ReviewDTO[]> {
       return reviewService.getAllReviews();
     }
+
+    @Get("{id}")
+    public async getReviewById(id: number): Promise<ReviewDTO | null> {
+      const review = await reviewService.getReviewById(id);
+      return review;
+    }
+
   }
  
