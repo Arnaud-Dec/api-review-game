@@ -42,12 +42,6 @@ export class ConsoleController extends Controller {
     return consoleService.createConsole(name, manufacturer);
   }
 
-  // Supprime une console par ID
-  @Delete("{id}")
-  public async deleteConsole(@Path() id: number): Promise<void> {
-    await consoleService.deleteConsole(id);
-  }
-
   // Met à jour une console par ID
   @Patch("{id}")
   public async updateConsole(
@@ -61,4 +55,12 @@ export class ConsoleController extends Controller {
     }
     return console;
   }
+
+  // Supprime une console par ID
+  @Delete("{id}")
+  public async deleteConsole(@Path() id: number): Promise<void> {
+    await consoleService.deleteConsole(id);
+  }
+
+  
 }

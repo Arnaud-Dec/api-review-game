@@ -2,6 +2,7 @@ import { Body, Controller, Get, Path, Route, Tags ,Post , Patch, Delete } from "
 import { GameDTO } from "../dto/game.dto";
 import { gameService } from "../services/game.service";
 import { notFound } from "../error/NotFoundError";
+import { ReviewDTO } from "../dto/review.dto";
 
 
 
@@ -19,6 +20,16 @@ export class GameController extends Controller {
   public async getGameById(@Path() id: number): Promise<GameDTO | null> {
     const game = await gameService.getGameById(id);
     return game;
+  }
+
+  // Récupere les reviews par id du jeu
+  @Get("{id}/reviews")
+  public async getReviewsByGameId(@Path() id: number): Promise<ReviewDTO[]> {
+    const game = await gameService.getGameById(id);
+    if (!game) {
+      notFound("ID game");
+    }
+    return gameService.getReviewsByGameId(id);
   }
 
   // créer nouveau jeu 
@@ -51,6 +62,8 @@ public async updateGame(
 public async deleteGame(@Path() id: number): Promise<void> {
   await gameService.deleteGame(id);
 }
+
+
 
  
 }
