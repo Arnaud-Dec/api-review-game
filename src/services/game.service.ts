@@ -60,7 +60,7 @@ export class GameService {
     const game = await Game.findByPk(id);
     const reviews = await Review.findAll({
       where: {
-        game_id: id
+        gameId: id
       }
     });
     if (!game) {
@@ -79,7 +79,7 @@ export class GameService {
   public async getReviewsByGameId(id: number): Promise<Review[]> {
     return await Review.findAll({
       where: {
-        game_id: id
+        gameId: id
       }
     });
   }

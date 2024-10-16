@@ -33,7 +33,7 @@ export class ConsoleService {
     const gameIds = games.map(game => game.id);
     const reviews = await Review.findAll({
       where: {
-        game_id: {
+        gameId: {
           [Op.in]: gameIds
         }
       }

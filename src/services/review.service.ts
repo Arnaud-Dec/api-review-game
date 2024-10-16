@@ -27,27 +27,27 @@ export class ReviewService {
     }
 
     public async createReview(
-        game_id: number,
+        gameId: number,
         rating: number,
         content: string
     ): Promise<Review> {
-        const game = await Game.findByPk(game_id);
+        const game = await Game.findByPk(gameId);
         if (!game) {
-            notFound("Game " + game_id);
+            notFound("Game " + gameId);
         }else{
-            return Review.create({ game_id, rating, content });
+            return Review.create({ gameId, rating, content });
         }
     }
 
     public async updateReview(
         id: number,
-        game_id: number,
+        gameId: number,
         rating: number,
         content: string
     ): Promise<Review | null> {
         const review = await Review.findByPk(id);
         if (review) {
-            if (game_id) review.game_id = game_id;
+            if (gameId) review.gameId = gameId;
             if (rating) review.rating = rating;
             if (content) review.content = content;
             await review.save();
