@@ -16,14 +16,19 @@ export class ReviewService {
     }
 
     public async getReviewById(id: number): Promise<Review | null> {
-        return Review.findByPk(id, {
-            include: [
-                {
-                    model: Game,
-                    as: "game",
-                },
-            ],
-        });
+        const review = await Review.findByPk(id);
+        if (!review) {
+            notFound("Review " + id);
+        }else{
+            return Review.findByPk(id, {
+                include: [
+                    {
+                        model: Game,
+                        as: "game",
+                    },
+                ],
+            });
+        }
     }
 
     public async createReview(
@@ -40,20 +45,25 @@ export class ReviewService {
     }
 
     public async updateReview(
+        
         id: number,
         gameId: number,
         rating: number,
         content: string
     ): Promise<Review | null> {
         const review = await Review.findByPk(id);
-        if (review) {
+        const game = await Game.findByPk(gameId);
+        if (!review) {
+            notFound("Review " + id);
+        }
+        if (!game) {
+            notFound("Game " + gameId);
+        }
             if (gameId) review.gameId = gameId;
             if (rating) review.rating = rating;
             if (content) review.content = content;
             await review.save();
             return review;
-        }
-        return null;
     }
 
     public async deleteReview(id: number): Promise<void> {
