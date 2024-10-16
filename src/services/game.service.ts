@@ -30,25 +30,25 @@ export class GameService {
 
   public async createGame(
     title: string,
-    console_id: number
+    consoleId: number
   ): Promise<Game> {
-    const console = await Console.findByPk(console_id);
+    const console = await Console.findByPk(consoleId);
     if(!console){
-      notFound("Console "+console_id);
+      notFound("Console "+consoleId);
     }else{
-      return Game.create({ title, console_id });
+      return Game.create({ title, consoleId });
     }
   }
 
   public async updateGame(
     id: number,
     title?: string,
-    console_id?: number
+    consoleId?: number
   ): Promise<GameDTO | null> {
     const game = await Game.findByPk(id);
     if (game) {
       if (title) game.title = title;
-      if (console_id) game.console_id = console_id;
+      if (consoleId) game.consoleId = consoleId;
       await game.save();
       return game;
     }

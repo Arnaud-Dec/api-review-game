@@ -28,7 +28,7 @@ export class ConsoleService {
   public async deleteConsole(id: number): Promise<void> {
     const console = await Console.findByPk(id);
     const games = await Game.findAll({
-      where : {console_id : id}
+      where : {consoleId : id}
     });
     const gameIds = games.map(game => game.id);
     const reviews = await Review.findAll({
@@ -69,7 +69,7 @@ export class ConsoleService {
   public async getGamesByConsoleId(id: number): Promise<Game[]> {
     return await Game.findAll({
       where: {
-        console_id: id
+        consoleId: id
       }
     });
   }
