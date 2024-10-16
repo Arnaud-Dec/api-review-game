@@ -2,6 +2,7 @@ import { Controller, Get, Post, Delete, Route, Path, Body, Tags, Patch } from "t
 import { consoleService } from "../services/console.service";
 import { ConsoleDTO } from "../dto/console.dto";
 import { notFound } from "../error/NotFoundError";
+import { GameDTO } from "../dto/game.dto";
 
 @Route("consoles")
 @Tags("Consoles")
@@ -20,6 +21,16 @@ export class ConsoleController extends Controller {
         notFound("ID");
       }
     return console;
+  }
+
+  // Récupère les jeux par l'id de la console
+  @Get("{id}/games")
+  public async getGamesByConsoleId(@Path() id: number): Promise<GameDTO[]> {
+    const console = await consoleService.getConsoleById(id);
+    if (!console) {
+      notFound("ID console");
+    }
+    return consoleService.getGamesByConsoleId(id);
   }
 
   // Crée une nouvelle console
