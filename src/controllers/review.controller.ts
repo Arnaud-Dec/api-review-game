@@ -1,4 +1,4 @@
-import { Controller, Route, Tags , Get , Post , Body , Patch , Path} from "tsoa";
+import { Controller, Route, Tags , Get , Post , Body , Patch , Path, Delete} from "tsoa";
 import { ReviewDTO } from "../dto/review.dto";
 import { reviewService } from "../services/review.service";
 import { Review } from "../models/review.model";
@@ -43,7 +43,10 @@ export class ReviewController extends Controller {
       }
     }
 
-    
+    @Delete("{id}")
+    public async deleteReview(@Path() id: number): Promise<void> {
+      await reviewService.deleteReview(id);
+    }
 
   }
  
