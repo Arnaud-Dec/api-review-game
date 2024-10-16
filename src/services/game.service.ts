@@ -18,6 +18,11 @@ export class GameService {
   }
 
   public async getGameById(id: number): Promise<GameDTO | null> {
+
+    const game = await Game.findByPk(id);
+    if (!game) {
+      notFound("Game with id : " + id);
+    }
     return Game.findByPk(id,{
       include: [
         {
@@ -45,14 +50,18 @@ export class GameService {
     title?: string,
     consoleId?: number
   ): Promise<GameDTO | null> {
+    const console = await Console.findByPk(consoleId);
     const game = await Game.findByPk(id);
-    if (game) {
+    if (!game) {
+      notFound("Game with id : " + id);
+    }
+    if (!console) {
+      notFound("Console with id : " + consoleId);
+    }
       if (title) game.title = title;
       if (consoleId) game.consoleId = consoleId;
       await game.save();
       return game;
-    }
-    return null;
   }
 
 

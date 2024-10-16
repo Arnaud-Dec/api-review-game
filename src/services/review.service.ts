@@ -45,7 +45,6 @@ export class ReviewService {
     }
 
     public async updateReview(
-        
         id: number,
         gameId: number,
         rating: number,
