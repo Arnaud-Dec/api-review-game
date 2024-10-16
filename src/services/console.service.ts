@@ -1,4 +1,8 @@
 import { Console } from "../models/console.model";
+import { Game } from "../models/game.model";
+import { Review } from "../models/review.model";
+import { notFound } from "../error/NotFoundError";
+import { Op } from "sequelize";
 
 export class ConsoleService {
 
@@ -23,9 +27,26 @@ export class ConsoleService {
   // Supprime une console par ID
   public async deleteConsole(id: number): Promise<void> {
     const console = await Console.findByPk(id);
-    if (console) {
-      console.destroy();
+    const games = await Game.findAll({
+      where : {console_id : id}
+    });
+    const gameIds = games.map(game => game.id);
+    const reviews = await Review.findAll({
+      where: {
+        game_id: {
+          [Op.in]: gameIds
+        }
+      }
+    });
+    if(!console){
+      notFound("Console with id : "+id);
     }
+    if(reviews.length > 0){
+      const error = new Error("You can't delete a console with reviews");
+      (error as any).status = 403;
+      throw error;
+    }
+    console.destroy();
   }
 
   // Met à jour une console
